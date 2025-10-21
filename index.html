@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Kuantitas Barang</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    .hidden-page { display: none; }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+    input[type=number] { -moz-appearance: textfield; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white">
+  
+  <!-- =================================================================== -->
+  <!-- HALAMAN HOME                                                        -->
+  <!-- =================================================================== -->
+  <div id="page-home" class="min-h-screen relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+    <div class="absolute top-20 left-20 w-72 h-72 bg-cyan-500 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    <div class="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    <div class="relative z-10 p-6 max-w-6xl mx-auto">
+      <div class="text-center mb-12 pt-8">
+        <div class="inline-flex items-center gap-3 bg-cyan-500/10 px-6 py-3 rounded-full border border-cyan-500/30 mb-6 backdrop-blur-sm">
+          <i data-lucide="database" class="w-6 h-6 text-cyan-400 animate-pulse"></i>
+          <span class="text-cyan-300 font-mono text-sm">MIOT LAB SYSTEM v2.0</span>
+          <i data-lucide="cpu" class="w-6 h-6 text-cyan-400 animate-pulse"></i>
+        </div>
+        <h1 class="text-5xl font-bold text-white mb-4 tracking-tight">
+          <span class="bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">Rekap Kuantitas Barang</span>
+        </h1>
+        <p class="text-gray-400 text-lg font-light">PSD Laboratory Management System</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <div class="md:col-span-2 bg-gray-800/50 backdrop-blur-xl rounded-2xl border border-cyan-500/20 shadow-2xl overflow-hidden">
+          <div class="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 px-6 py-4 border-b border-cyan-500/30">
+            <h2 class="text-xl font-semibold text-white flex items-center gap-2">
+              <i data-lucide="calendar" class="w-5 h-5 text-cyan-400"></i>
+              Pilih Sesi Praktikum
+            </h2>
+          </div>
+          <div class="p-6">
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-cyan-300 mb-3 uppercase tracking-wide">Nama Asisten Praktikum</label>
+              <input id="aspenNameInput" type="text" placeholder="Masukkan nama kamu..." class="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition"/>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-gradient-to-r from-blue-500/10 to-transparent p-4 rounded-xl border-l-4 border-blue-500">
+                <h3 class="font-semibold text-lg mb-3 text-blue-300">Rabu - 1 Sesi</h3>
+                <button onclick="startSession('Rabu', 1)" class="session-button w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-500 hover:to-blue-600 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/20 font-semibold" disabled>
+                  Launch Session 1
+                </button>
+              </div>
+              <div class="bg-gradient-to-r from-green-500/10 to-transparent p-4 rounded-xl border-l-4 border-green-500">
+                <h3 class="font-semibold text-lg mb-3 text-green-300">Jumat - 1 Sesi</h3>
+                <button onclick="startSession('Jumat', 1)" class="session-button w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-500 hover:to-green-600 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all shadow-lg shadow-green-500/20 font-semibold" disabled>
+                  Launch Session 1
+                </button>
+              </div>
+              <div class="bg-gradient-to-r from-purple-500/10 to-transparent p-4 rounded-xl border-l-4 border-purple-500">
+                <h3 class="font-semibold text-lg mb-3 text-purple-300">Sabtu - 4 Sesi</h3>
+                <div class="grid grid-cols-2 gap-3">
+                  <button onclick="startSession('Sabtu', 1)" class="session-button px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-500 hover:to-purple-600 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all" disabled>Sesi 1</button>
+                  <button onclick="startSession('Sabtu', 2)" class="session-button px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-500 hover:to-purple-600 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all" disabled>Sesi 2</button>
+                  <button onclick="startSession('Sabtu', 3)" class="session-button px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-500 hover:to-purple-600 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all" disabled>Sesi 3</button>
+                  <button onclick="startSession('Sabtu', 4)" class="session-button px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-500 hover:to-purple-600 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all" disabled>Sesi 4</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="space-y-6">
+          <div class="bg-gray-800/50 backdrop-blur-xl rounded-2xl border border-cyan-500/20 p-6 shadow-2xl">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4 flex items-center gap-2">
+              <i data-lucide="eye" class="w-5 h-5"></i> Admin Access
+            </h3>
+            <button onclick="setPage('admin')" class="w-full px-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg hover:from-cyan-500 hover:to-blue-500 transition-all font-semibold flex items-center justify-center gap-2">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Open Dashboard
+            </button>
+          </div>
+          <div class="bg-gray-800/50 backdrop-blur-xl rounded-2xl border border-cyan-500/20 p-6 shadow-2xl">
+            <h3 class="text-lg font-semibold text-cyan-300 mb-4">System Stats</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between items-center p-3 bg-gray-900/50 rounded-lg border border-gray-700">
+                <span class="text-gray-400 text-sm">Jenis Barang</span>
+                <span id="stats-total-items" class="text-cyan-400 font-bold text-xl">0</span>
+              </div>
+              <div class="flex justify-between items-center p-3 bg-gray-900/50 rounded-lg border border-gray-700">
+                <span class="text-gray-400 text-sm">Total Sesi</span>
+                <span id="stats-total-sessions" class="text-blue-400 font-bold text-xl">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- HALAMAN INPUT KUANTITAS                                             -->
+  <!-- =================================================================== -->
+  <div id="page-quantity" class="hidden-page min-h-screen relative overflow-hidden">
+     <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+    <div class="absolute top-20 right-20 w-96 h-96 bg-cyan-500 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+    <div class="relative z-10 p-6 max-w-4xl mx-auto">
+      <button onclick="setPage('home')" class="text-cyan-400 hover:text-cyan-300 mb-6 flex items-center gap-2 transition">
+        &larr; Back to Home
+      </button>
+      <div class="bg-gray-800/50 backdrop-blur-xl rounded-2xl border border-cyan-500/20 shadow-2xl overflow-hidden">
+        <div class="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 px-6 py-6 border-b border-cyan-500/30">
+          <h1 class="text-3xl font-bold text-white mb-3 flex items-center gap-3">
+            <i data-lucide="package-plus" class="w-8 h-8 text-cyan-400"></i>
+            Input Kuantitas Barang
+          </h1>
+          <div id="quantity-header" class="flex flex-wrap gap-4 text-sm">
+          </div>
+        </div>
+        <div class="p-6">
+          <div id="quantity-items-container" class="space-y-3">
+          </div>
+        </div>
+        <div class="p-6 bg-gray-900/30 border-t border-gray-700">
+          <button onclick="saveSession()" id="saveSessionButton" class="w-full py-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl hover:from-cyan-500 hover:to-blue-500 disabled:from-gray-700 disabled:to-gray-800 disabled:cursor-not-allowed transition-all font-bold text-lg flex items-center justify-center gap-2">
+            <i data-lucide="database" class="w-5 h-5"></i>
+            Save Session Data
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- HALAMAN ADMIN                                                       -->
+  <!-- =================================================================== -->
+  <div id="page-admin" class="hidden-page min-h-screen relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: linear-gradient(cyan 1px, transparent 1px), linear-gradient(90deg, cyan 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+    <div class="relative z-10 p-6 max-w-7xl mx-auto">
+      <button onclick="setPage('home')" class="text-cyan-400 hover:text-cyan-300 mb-6 flex items-center gap-2 transition">
+        &larr; Back to Home
+      </button>
+      <div class="bg-gray-800/50 backdrop-blur-xl rounded-2xl border border-cyan-500/20 shadow-2xl overflow-hidden">
+        <div class="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 px-8 py-6 border-b border-cyan-500/30">
+          <div class="flex justify-between items-center">
+            <div>
+              <h1 class="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+                <i data-lucide="cpu" class="w-8 h-8 text-cyan-400 animate-pulse"></i>
+                Admin Dashboard
+              </h1>
+              <p class="text-gray-400">System Management & Analytics</p>
+            </div>
+            <div class="flex gap-3">
+              <button id="toggle-settings-btn" onclick="toggleSettings()" class="px-5 py-3 rounded-lg transition-all flex items-center gap-2 font-semibold bg-gray-700/50 text-gray-300 border-2 border-gray-600 hover:border-cyan-500/50">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+                Manage Items
+              </button>
+              <button onclick="exportToCSV()" class="px-5 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-500 hover:to-emerald-500 transition-all flex items-center gap-2 font-semibold">
+                <i data-lucide="download" class="w-5 h-5"></i>
+                Export CSV
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="p-8">
+          <div id="settings-panel" class="hidden-page mb-8 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 p-6 rounded-xl border border-cyan-500/30">
+            <h3 class="font-semibold text-xl mb-5 text-cyan-300 flex items-center gap-2">
+              <i data-lucide="package" class="w-6 h-6"></i>
+              Equipment Database
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+              <input id="newItemNameInput" type="text" placeholder="Nama barang baru..." class="md:col-span-2 px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"/>
+              <input id="newItemQuantityInput" type="number" min="0" placeholder="Jumlah total..." class="px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition"/>
+            </div>
+            <button onclick="addItem()" class="w-full px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl hover:from-cyan-500 hover:to-blue-500 transition-all font-semibold">
+              Add Item
+            </button>
+            <div id="admin-items-list" class="mt-6 space-y-2 max-h-96 overflow-y-auto">
+            </div>
+          </div>
+          <div>
+            <h3 class="font-semibold text-xl text-cyan-300 flex items-center gap-2 mb-6">
+              <i data-lucide="database" class="w-6 h-6"></i>
+              Session History (<span id="session-count">0</span>)
+            </h3>
+            <div class="bg-gray-900/30 rounded-xl border border-gray-700 overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead>
+                    <tr class="bg-gray-900/50 border-b border-gray-700">
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Date</th>
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Session</th>
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Assistant</th>
+                      <!-- PERUBAHAN 1: Ganti header tabel -->
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Detail Penggunaan</th>
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sessions-table-body" class="divide-y divide-gray-800">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyB77E1dEORfbmZIdcSqrrjSzaVugqQWt0s",
+      authDomain: "rekap-barang-psd.firebaseapp.com",
+      databaseURL: "https://rekap-barang-psd-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "rekap-barang-psd",
+      storageBucket: "rekap-barang-psd.appspot.com",
+      messagingSenderId: "963551417865",
+      appId: "1:963551417865:web:71c9c507057dee8e46cad8"
+    };
+
+    let items = [];
+    let sessions = [];
+    let currentSession = null;
+    let usedQuantities = {};
+    let showSettings = false;
+    let db; 
+
+    const pages = {
+        home: document.getElementById('page-home'),
+        quantity: document.getElementById('page-quantity'),
+        admin: document.getElementById('page-admin'),
+    };
+    const aspenNameInput = document.getElementById('aspenNameInput');
+    const sessionButtons = document.querySelectorAll('.session-button');
+    const newItemNameInput = document.getElementById('newItemNameInput');
+    const newItemQuantityInput = document.getElementById('newItemQuantityInput');
+    
+    function setPage(pageName) {
+        Object.values(pages).forEach(p => p.classList.add('hidden-page'));
+        if (pages[pageName]) pages[pageName].classList.remove('hidden-page');
+        window.scrollTo(0, 0);
+        if (pageName === 'admin') renderAdminPage();
+    }
+
+    function renderHomePage() {
+      document.getElementById('stats-total-items').textContent = items.length;
+      document.getElementById('stats-total-sessions').textContent = sessions.length;
+    }
+
+    function renderAdminPage() {
+      const itemsListContainer = document.getElementById('admin-items-list');
+      if (items.length === 0) {
+        itemsListContainer.innerHTML = `<p class="text-gray-500 text-center py-4">No items in database.</p>`;
+      } else {
+        itemsListContainer.innerHTML = items.map((item, idx) => `
+          <div class="flex items-center justify-between p-4 bg-gray-900/50 rounded-lg border border-gray-700">
+            <div class="flex items-center gap-3"><span class="text-gray-500 font-mono text-sm">#${String(idx + 1).padStart(2, '0')}</span><span class="text-gray-300 font-medium">${item.name}</span></div>
+            <div class="flex items-center gap-4"><span class="text-xs text-cyan-400 bg-cyan-500/20 px-3 py-1 rounded-full border border-cyan-500/30">Total: ${item.quantity || 0}</span><button onclick="deleteItem('${item.id}')" class="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-2 rounded-lg transition"><i data-lucide="trash-2" class="w-5 h-5"></i></button></div>
+          </div>`).join('');
+      }
+
+      const sessionsTableBody = document.getElementById('sessions-table-body');
+      document.getElementById('session-count').textContent = sessions.length;
+      if (sessions.length === 0) {
+        sessionsTableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center"><p class="text-gray-500">No sessions recorded.</p></td></tr>`;
+      } else {
+        const sortedSessions = [...sessions].sort((a, b) => b.timestamp - a.timestamp);
+        sessionsTableBody.innerHTML = sortedSessions.map(session => {
+          const sessionItems = session.items || {};
+          
+          // PERUBAHAN 2: Logika untuk membuat detail string
+          const usedItemsDetails = Object.values(sessionItems)
+            .filter(item => (item.quantityUsed || 0) > 0)
+            .map(item => `${item.name} (${item.quantityUsed})`)
+            .join(', ');
+
+          const displayDetails = usedItemsDetails.length > 0 ? usedItemsDetails : 'Tidak ada';
+          
+          return `
+            <tr class="hover:bg-gray-800/30 transition">
+              <td class="px-6 py-4 text-sm text-gray-300 font-mono">${session.date}</td>
+              <td class="px-6 py-4 text-sm"><span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-semibold border border-cyan-500/30">${session.day}, Sesi ${session.sessionNumber}</span></td>
+              <td class="px-6 py-4 text-sm text-gray-300 font-medium">${session.aspen}</td>
+              <!-- PERUBAHAN 3: Tampilkan variabel detail di sini -->
+              <td class="px-6 py-4 text-sm text-gray-300">${displayDetails}</td>
+              <td class="px-6 py-4 text-sm"><button onclick="deleteSession('${session.id}')" class="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-2 rounded-lg transition"><i data-lucide="trash-2" class="w-5 h-5"></i></button></td>
+            </tr>`;
+        }).join('');
+      }
+      lucide.createIcons();
+    }
+
+    function renderQuantityPage() {
+      const headerContainer = document.getElementById('quantity-header');
+      headerContainer.innerHTML = `
+        <div class="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-700"><i data-lucide="calendar" class="w-4 h-4 text-cyan-400"></i><span class="text-gray-300">${currentSession?.date}</span></div>
+        <div class="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-700"><span class="text-cyan-400 font-semibold">${currentSession?.day}, Sesi ${currentSession?.sessionNumber}</span></div>
+        <div class="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-700"><span class="text-gray-400">Asisten:</span><span class="text-cyan-400 font-semibold">${currentSession?.aspen}</span></div>`;
+      const itemsContainer = document.getElementById('quantity-items-container');
+      if (items.length === 0) {
+          itemsContainer.innerHTML = `<div class="text-center py-16"><p class="text-gray-500">No items configured.</p></div>`;
+          document.getElementById('saveSessionButton').disabled = true;
+      } else {
+          itemsContainer.innerHTML = items.map((item) => {
+            const usedValue = usedQuantities[item.id] || '';
+            return `
+              <div class="w-full p-4 rounded-xl flex items-center gap-4 bg-gray-900/50 border-2 border-gray-700 hover:border-cyan-500/50">
+                <div class="flex-shrink-0"><i data-lucide="package" class="w-7 h-7 text-gray-500"></i></div>
+                <div class="flex-1 text-left"><span class="font-medium text-lg text-gray-300">${item.name}</span><p class="text-xs text-gray-500">Total tersedia: ${item.quantity || 0}</p></div>
+                <div class="flex-shrink-0"><input type="number" min="0" max="${item.quantity || 0}" oninput="updateUsedQuantity('${item.id}', this.value)" value="${usedValue}" placeholder="0" class="w-24 text-center text-lg font-bold bg-gray-800 border border-gray-600 rounded-lg py-2 px-2 text-white focus:outline-none focus:border-cyan-400"/></div>
+              </div>`;
+          }).join('');
+          document.getElementById('saveSessionButton').disabled = false;
+      }
+      lucide.createIcons();
+    }
+    
+    function addItem() {
+      const newItemName = newItemNameInput.value.trim();
+      const newItemQuantity = parseInt(newItemQuantityInput.value, 10);
+      if (!newItemName || isNaN(newItemQuantity) || newItemQuantity < 0) {
+        alert("Harap isi nama barang dan jumlah total yang valid."); return;
+      }
+      const itemsRef = db.ref('items');
+      const newItemRef = itemsRef.push();
+      newItemRef.set({ id: newItemRef.key, name: newItemName, quantity: newItemQuantity });
+      newItemNameInput.value = '';
+      newItemQuantityInput.value = '';
+    }
+
+    function deleteItem(itemId) {
+      if (!confirm("Yakin ingin menghapus item ini?")) return;
+      db.ref(`items/${itemId}`).remove();
+    }
+
+    function startSession(day, sessionNumber) {
+      const aspenName = aspenNameInput.value.trim();
+      if (!aspenName) { alert('Harap isi nama asisten praktikum terlebih dahulu!'); return; }
+      currentSession = { day, sessionNumber, date: new Date().toISOString().split('T')[0], aspen: aspenName, items: {}, timestamp: Date.now() };
+      usedQuantities = {};
+      setPage('quantity');
+      renderQuantityPage();
+    }
+
+    function updateUsedQuantity(itemId, value) {
+      const quantity = parseInt(value, 10);
+      if (!isNaN(quantity) && quantity >= 0) {
+        usedQuantities[itemId] = quantity;
+      } else {
+        delete usedQuantities[itemId];
+      }
+    }
+
+    function saveSession() {
+      if (!currentSession) return;
+      for (const item of items) {
+        const used = usedQuantities[item.id] || 0;
+        const total = item.quantity || 0;
+        if (used > total) {
+            alert(`Error: Jumlah "${item.name}" yang diinput (${used}) melebihi stok total (${total}).`); return;
+        }
+      }
+      const sessionsRef = db.ref('sessions');
+      const newSessionRef = sessionsRef.push();
+      const sessionData = { ...currentSession, items: items.reduce((acc, item) => {
+          acc[item.id] = { name: item.name, quantityUsed: usedQuantities[item.id] || 0 }; return acc;
+        }, {}) };
+      newSessionRef.set(sessionData);
+      alert('Sesi berhasil disimpan! ✨');
+      setPage('home');
+      currentSession = null;
+      usedQuantities = {};
+    }
+
+    function exportToCSV() {
+      if (items.length === 0 || sessions.length === 0) {
+        alert("Tidak ada data untuk di-export."); return;
+      }
+      const headers = ['Tanggal', 'Hari', 'Sesi', 'Asisten', ...items.map(i => i.name)];
+      const rows = sessions.map(s => [ s.date, s.day, s.sessionNumber, s.aspen, ...items.map(item => s.items?.[item.id]?.quantityUsed ?? 0) ]);
+      const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `rekap-kuantitas-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+    
+    function deleteSession(sessionId) {
+      if (!window.confirm('Anda yakin ingin menghapus sesi ini?')) return;
+      db.ref(`sessions/${sessionId}`).remove();
+    }
+
+    function toggleSettings() {
+      showSettings = !showSettings;
+      const panel = document.getElementById('settings-panel');
+      const btn = document.getElementById('toggle-settings-btn');
+      if (showSettings) {
+        panel.classList.remove('hidden-page');
+        btn.classList.add('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500');
+        btn.classList.remove('bg-gray-700/50', 'text-gray-300', 'border-gray-600');
+      } else {
+        panel.classList.add('hidden-page');
+        btn.classList.remove('bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500');
+        btn.classList.add('bg-gray-700/50', 'text-gray-300', 'border-gray-600');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+        db = firebase.database();
+        console.log("Firebase Initialized Successfully");
+
+        const itemsRef = db.ref('items');
+        itemsRef.on('value', (snapshot) => {
+          const data = snapshot.val();
+          items = data ? Object.values(data) : [];
+          renderHomePage();
+          if (!pages.admin.classList.contains('hidden-page')) renderAdminPage();
+        });
+
+        const sessionsRef = db.ref('sessions');
+        sessionsRef.on('value', (snapshot) => {
+          const data = snapshot.val();
+          sessions = data ? Object.entries(data).map(([id, val]) => ({ id, ...val })) : [];
+          renderHomePage();
+        });
+        
+        lucide.createIcons();
+
+        aspenNameInput.addEventListener('input', (e) => {
+          const hasName = e.target.value.trim().length > 0;
+          sessionButtons.forEach(btn => { btn.disabled = !hasName; });
+        });
+        
+      } catch (error) {
+        console.error("Firebase Initialization Error:", error);
+        alert("Gagal terhubung ke database. Cek konfigurasi Firebase Anda.");
+      }
+    });
+  </script>
+</body>
+</html>
