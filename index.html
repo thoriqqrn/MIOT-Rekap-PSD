@@ -19,6 +19,16 @@
       margin: 0; 
     }
     input[type=number] { -moz-appearance: textfield; }
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-chevron-down'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1.25em;
+      padding-right: 2.5rem;
+    }
   </style>
 </head>
 <body class="bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white">
@@ -55,7 +65,20 @@
           <div class="p-6">
             <div class="mb-6">
               <label class="block text-sm font-medium text-cyan-300 mb-3 uppercase tracking-wide">Nama Asisten Praktikum</label>
-              <input id="aspenNameInput" type="text" placeholder="Masukkan nama kamu..." class="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition"/>
+              <select id="aspenNameInput" class="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition">
+                <option value="" disabled selected>-- Pilih Nama Kamu --</option>
+                <option value="Muhammad Syawal Ridho Fadhilah">Muhammad Syawal Ridho Fadhilah</option>
+                <option value="Mukhamad Nabila Pratama">Mukhamad Nabila Pratama</option>
+                <option value="Mahija Ibad Pradipta">Mahija Ibad Pradipta</option>
+                <option value="Azaria Putri Fawnia">Azaria Putri Fawnia</option>
+                <option value="Muhammad Naufal Irsha Ananda">Muhammad Naufal Irsha Ananda</option>
+                <option value="M Al Hakiim Fakhri Sultansyah">M Al Hakiim Fakhri Sultansyah</option>
+                <option value="Hilmy Abid Syafi Abiyyu">Hilmy Abid Syafi Abiyyu</option>
+                <option value="Athariq Qurani Fajri">Athariq Qurani Fajri</option>
+                <option value="Susilo Hendri Yudhoyono">Susilo Hendri Yudhoyono</option>
+                <option value="Andrew Marlin">Andrew Marlin</option>
+                <!-- Tambahkan nama asisten lain di sini -->
+              </select>
             </div>
             <div class="space-y-4">
               <div class="bg-gradient-to-r from-blue-500/10 to-transparent p-4 rounded-xl border-l-4 border-blue-500">
@@ -131,6 +154,59 @@
           </div>
         </div>
         <div class="p-6">
+          <!-- PERUBAHAN: Menambahkan dropdown Osiloskop & Function Generator -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <label for="nomorKelompokSelect" class="block text-sm font-medium text-cyan-300 mb-2 uppercase tracking-wide">Nomor Kelompok</label>
+              <select id="nomorKelompokSelect" class="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition">
+                <option value="" disabled selected>-- Pilih --</option>
+                <option value="1">Kelompok 1</option>
+                <option value="2">Kelompok 2</option>
+                <option value="3">Kelompok 3</option>
+                <option value="4">Kelompok 4</option>
+                <option value="5">Kelompok 5</option>
+                <option value="6">Kelompok 6</option>
+                <option value="7">Kelompok 7</option>
+                <option value="8">Kelompok 8</option>
+                <option value="9">Kelompok 9</option>
+                <option value="10">Kelompok 10</option>
+                <option value="11">Kelompok 11</option>
+                <option value="12">Kelompok 12</option>
+                <option value="13">Kelompok 13</option>
+                <option value="14">Kelompok 14</option>
+                <option value="15">Kelompok 15</option>
+                <option value="16">Kelompok 16</option>
+                <option value="17">Kelompok 17</option>
+                <option value="18">Kelompok 18</option>
+                <option value="19">Kelompok 19</option>
+                <option value="20">Kelompok 20</option>
+                <option value="21">Kelompok 21</option>
+                <option value="22">Kelompok 22</option>
+                <option value="23">Kelompok 23</option>
+                <option value="24">Kelompok 24</option>
+              </select>
+            </div>
+            <div>
+              <label for="osiloskopSelect" class="block text-sm font-medium text-cyan-300 mb-2 uppercase tracking-wide">Kode Osiloskop</label>
+              <select id="osiloskopSelect" class="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition">
+                <option value="" disabled selected>-- Pilih --</option>
+                <option value="Os1">Os1</option>
+                <option value="Os2">Os2</option>
+                <option value="Os3">Os3</option>
+                <option value="Os4">Os4</option>
+              </select>
+            </div>
+            <div>
+              <label for="functionGenSelect" class="block text-sm font-medium text-cyan-300 mb-2 uppercase tracking-wide">Kode Function Gen</label>
+              <select id="functionGenSelect" class="w-full px-4 py-3 bg-gray-900/50 border border-cyan-500/30 rounded-xl text-white focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition">
+                <option value="" disabled selected>-- Pilih --</option>
+                <option value="F1">F1</option>
+                <option value="F2">F2</option>
+                <option value="F3">F3</option>
+                <option value="F4">F4</option>
+              </select>
+            </div>
+          </div>
           <div id="quantity-items-container" class="space-y-3">
           </div>
         </div>
@@ -206,7 +282,10 @@
                       <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Date</th>
                       <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Session</th>
                       <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Assistant</th>
-                      <!-- PERUBAHAN 1: Ganti header tabel -->
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Kelompok</th>
+                      <!-- PERUBAHAN: Menambah kolom Osiloskop & Function Gen -->
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Osiloskop</th>
+                      <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Function Gen</th>
                       <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Detail Penggunaan</th>
                       <th class="px-6 py-4 text-left text-sm font-semibold text-cyan-300 uppercase tracking-wider">Action</th>
                     </tr>
@@ -277,17 +356,16 @@
       const sessionsTableBody = document.getElementById('sessions-table-body');
       document.getElementById('session-count').textContent = sessions.length;
       if (sessions.length === 0) {
-        sessionsTableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-16 text-center"><p class="text-gray-500">No sessions recorded.</p></td></tr>`;
+        sessionsTableBody.innerHTML = `<tr><td colspan="8" class="px-6 py-16 text-center"><p class="text-gray-500">No sessions recorded.</p></td></tr>`;
       } else {
         const sortedSessions = [...sessions].sort((a, b) => b.timestamp - a.timestamp);
         sessionsTableBody.innerHTML = sortedSessions.map(session => {
           const sessionItems = session.items || {};
           
-          // PERUBAHAN 2: Logika untuk membuat detail string
           const usedItemsDetails = Object.values(sessionItems)
             .filter(item => (item.quantityUsed || 0) > 0)
-            .map(item => `${item.name} (${item.quantityUsed})`)
-            .join(', ');
+            .map(item => `${item.name} (${item.quantityUsed}, <span class="${item.status === 'Tidak Aman' ? 'text-red-400' : 'text-green-400'}">${item.status || 'Aman'}</span>)`)
+            .join('<br>');
 
           const displayDetails = usedItemsDetails.length > 0 ? usedItemsDetails : 'Tidak ada';
           
@@ -296,7 +374,9 @@
               <td class="px-6 py-4 text-sm text-gray-300 font-mono">${session.date}</td>
               <td class="px-6 py-4 text-sm"><span class="bg-cyan-500/20 text-cyan-300 px-3 py-1 rounded-full text-xs font-semibold border border-cyan-500/30">${session.day}, Sesi ${session.sessionNumber}</span></td>
               <td class="px-6 py-4 text-sm text-gray-300 font-medium">${session.aspen}</td>
-              <!-- PERUBAHAN 3: Tampilkan variabel detail di sini -->
+              <td class="px-6 py-4 text-sm text-gray-300 font-bold">Kelompok ${session.kelompok || '-'}</td>
+              <td class="px-6 py-4 text-sm text-gray-300 font-semibold">${session.kodeOsiloskop || '-'}</td>
+              <td class="px-6 py-4 text-sm text-gray-300 font-semibold">${session.kodeFunctionGenerator || '-'}</td>
               <td class="px-6 py-4 text-sm text-gray-300">${displayDetails}</td>
               <td class="px-6 py-4 text-sm"><button onclick="deleteSession('${session.id}')" class="text-red-400 hover:text-red-300 hover:bg-red-500/10 p-2 rounded-lg transition"><i data-lucide="trash-2" class="w-5 h-5"></i></button></td>
             </tr>`;
@@ -311,6 +391,7 @@
         <div class="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-700"><i data-lucide="calendar" class="w-4 h-4 text-cyan-400"></i><span class="text-gray-300">${currentSession?.date}</span></div>
         <div class="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-700"><span class="text-cyan-400 font-semibold">${currentSession?.day}, Sesi ${currentSession?.sessionNumber}</span></div>
         <div class="flex items-center gap-2 bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-700"><span class="text-gray-400">Asisten:</span><span class="text-cyan-400 font-semibold">${currentSession?.aspen}</span></div>`;
+      
       const itemsContainer = document.getElementById('quantity-items-container');
       if (items.length === 0) {
           itemsContainer.innerHTML = `<div class="text-center py-16"><p class="text-gray-500">No items configured.</p></div>`;
@@ -319,10 +400,16 @@
           itemsContainer.innerHTML = items.map((item) => {
             const usedValue = usedQuantities[item.id] || '';
             return `
-              <div class="w-full p-4 rounded-xl flex items-center gap-4 bg-gray-900/50 border-2 border-gray-700 hover:border-cyan-500/50">
+              <div class="w-full p-4 rounded-xl flex flex-wrap items-center gap-4 bg-gray-900/50 border-2 border-gray-700 hover:border-cyan-500/50">
                 <div class="flex-shrink-0"><i data-lucide="package" class="w-7 h-7 text-gray-500"></i></div>
-                <div class="flex-1 text-left"><span class="font-medium text-lg text-gray-300">${item.name}</span><p class="text-xs text-gray-500">Total tersedia: ${item.quantity || 0}</p></div>
-                <div class="flex-shrink-0"><input type="number" min="0" max="${item.quantity || 0}" oninput="updateUsedQuantity('${item.id}', this.value)" value="${usedValue}" placeholder="0" class="w-24 text-center text-lg font-bold bg-gray-800 border border-gray-600 rounded-lg py-2 px-2 text-white focus:outline-none focus:border-cyan-400"/></div>
+                <div class="flex-1 min-w-[150px]"><span class="font-medium text-lg text-gray-300">${item.name}</span><p class="text-xs text-gray-500">Total tersedia: ${item.quantity || 0}</p></div>
+                <div class="flex-shrink-0 flex items-center gap-3 ml-auto">
+                  <select id="status-${item.id}" class="bg-gray-800 border border-gray-600 rounded-lg py-2.5 px-3 text-white focus:outline-none focus:border-cyan-400 transition">
+                    <option value="Aman">Aman</option>
+                    <option value="Tidak Aman">Tidak Aman</option>
+                  </select>
+                  <input type="number" min="0" max="${item.quantity || 0}" oninput="updateUsedQuantity('${item.id}', this.value)" value="${usedValue}" placeholder="0" class="w-24 text-center text-lg font-bold bg-gray-800 border border-gray-600 rounded-lg py-2 px-2 text-white focus:outline-none focus:border-cyan-400"/>
+                </div>
               </div>`;
           }).join('');
           document.getElementById('saveSessionButton').disabled = false;
@@ -350,7 +437,7 @@
 
     function startSession(day, sessionNumber) {
       const aspenName = aspenNameInput.value.trim();
-      if (!aspenName) { alert('Harap isi nama asisten praktikum terlebih dahulu!'); return; }
+      if (!aspenName) { alert('Harap pilih nama asisten praktikum terlebih dahulu!'); return; }
       currentSession = { day, sessionNumber, date: new Date().toISOString().split('T')[0], aspen: aspenName, items: {}, timestamp: Date.now() };
       usedQuantities = {};
       setPage('quantity');
@@ -368,6 +455,16 @@
 
     function saveSession() {
       if (!currentSession) return;
+      // PERUBAHAN: Mengambil nilai dari semua dropdown
+      const nomorKelompok = document.getElementById('nomorKelompokSelect').value;
+      const kodeOsiloskop = document.getElementById('osiloskopSelect').value;
+      const kodeFunctionGen = document.getElementById('functionGenSelect').value;
+      
+      // Validasi
+      if (!nomorKelompok) { alert("Harap pilih nomor kelompok terlebih dahulu."); return; }
+      if (!kodeOsiloskop) { alert("Harap pilih kode box osiloskop."); return; }
+      if (!kodeFunctionGen) { alert("Harap pilih kode box function generator."); return; }
+
       for (const item of items) {
         const used = usedQuantities[item.id] || 0;
         const total = item.quantity || 0;
@@ -377,29 +474,61 @@
       }
       const sessionsRef = db.ref('sessions');
       const newSessionRef = sessionsRef.push();
-      const sessionData = { ...currentSession, items: items.reduce((acc, item) => {
-          acc[item.id] = { name: item.name, quantityUsed: usedQuantities[item.id] || 0 }; return acc;
-        }, {}) };
+      
+      const sessionData = { 
+        ...currentSession, 
+        kelompok: nomorKelompok,
+        kodeOsiloskop: kodeOsiloskop,
+        kodeFunctionGenerator: kodeFunctionGen,
+        items: items.reduce((acc, item) => {
+          const status = document.getElementById(`status-${item.id}`).value;
+          acc[item.id] = { 
+            name: item.name, 
+            quantityUsed: usedQuantities[item.id] || 0,
+            status: status
+          }; 
+          return acc;
+        }, {}) 
+      };
+
       newSessionRef.set(sessionData);
       alert('Sesi berhasil disimpan! ✨');
       setPage('home');
       currentSession = null;
       usedQuantities = {};
+      // Reset dropdowns
+      document.getElementById('nomorKelompokSelect').value = '';
+      document.getElementById('osiloskopSelect').value = '';
+      document.getElementById('functionGenSelect').value = '';
     }
 
     function exportToCSV() {
       if (items.length === 0 || sessions.length === 0) {
         alert("Tidak ada data untuk di-export."); return;
       }
-      const headers = ['Tanggal', 'Hari', 'Sesi', 'Asisten', ...items.map(i => i.name)];
-      const rows = sessions.map(s => [ s.date, s.day, s.sessionNumber, s.aspen, ...items.map(item => s.items?.[item.id]?.quantityUsed ?? 0) ]);
+      const itemHeaders = items.flatMap(i => [`${i.name} (Jumlah)`, `${i.name} (Status)`]);
+      const headers = ['Tanggal', 'Hari', 'Sesi', 'Asisten', 'Kelompok', 'Kode Osiloskop', 'Kode Function Gen', ...itemHeaders];
+      
+      const rows = sessions.map(s => {
+        const itemData = items.flatMap(item => {
+          const sessionItem = s.items?.[item.id];
+          return [
+            sessionItem?.quantityUsed ?? 0,
+            sessionItem?.status ?? 'Aman'
+          ];
+        });
+        return [ s.date, s.day, s.sessionNumber, s.aspen, s.kelompok, s.kodeOsiloskop || 'N/A', s.kodeFunctionGenerator || 'N/A', ...itemData ];
+      });
+
       const csv = [headers, ...rows].map(row => row.join(',')).join('\n');
-      const blob = new Blob([csv], { type: 'text/csv' });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = `rekap-kuantitas-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
     
@@ -446,7 +575,7 @@
         
         lucide.createIcons();
 
-        aspenNameInput.addEventListener('input', (e) => {
+        aspenNameInput.addEventListener('change', (e) => {
           const hasName = e.target.value.trim().length > 0;
           sessionButtons.forEach(btn => { btn.disabled = !hasName; });
         });
