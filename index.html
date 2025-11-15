@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://www.gstatic.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.firebasedatabase.app; img-src 'self' data:;">
   <title>Rekap Kuantitas Barang</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <style>
     body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
@@ -16,9 +18,13 @@
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
+      appearance: none;
       margin: 0; 
     }
-    input[type=number] { -moz-appearance: textfield; }
+    input[type=number] { 
+      -moz-appearance: textfield; 
+      appearance: textfield;
+    }
     select {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -554,26 +560,60 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       try {
-        if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+        console.log("Initializing Firebase...");
+        
+        // Check if Firebase is loaded
+        if (typeof firebase === 'undefined') {
+          throw new Error('Firebase library failed to load. Check your internet connection.');
+        }
+        
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+          firebase.initializeApp(FIREBASE_CONFIG);
+          console.log("Firebase app initialized");
+        }
+        
         db = firebase.database();
-        console.log("Firebase Initialized Successfully");
+        console.log("Firebase Database initialized successfully");
+
+        // Test database connection
+        db.ref('.info/connected').on('value', (snapshot) => {
+          if (snapshot.val() === true) {
+            console.log('✅ Connected to Firebase Database');
+          } else {
+            console.log('❌ Disconnected from Firebase Database');
+          }
+        });
 
         const itemsRef = db.ref('items');
         itemsRef.on('value', (snapshot) => {
           const data = snapshot.val();
           items = data ? Object.values(data) : [];
+          console.log(`Loaded ${items.length} items from database`);
           renderHomePage();
           if (!pages.admin.classList.contains('hidden-page')) renderAdminPage();
+        }, (error) => {
+          console.error("Error reading items:", error);
+          alert("Gagal membaca data items dari database: " + error.message);
         });
 
         const sessionsRef = db.ref('sessions');
         sessionsRef.on('value', (snapshot) => {
           const data = snapshot.val();
           sessions = data ? Object.entries(data).map(([id, val]) => ({ id, ...val })) : [];
+          console.log(`Loaded ${sessions.length} sessions from database`);
           renderHomePage();
+        }, (error) => {
+          console.error("Error reading sessions:", error);
+          alert("Gagal membaca data sessions dari database: " + error.message);
         });
         
-        lucide.createIcons();
+        // Initialize Lucide icons
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        } else {
+          console.warn('Lucide icons library not loaded');
+        }
 
         aspenNameInput.addEventListener('change', (e) => {
           const hasName = e.target.value.trim().length > 0;
